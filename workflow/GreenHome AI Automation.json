@@ -1,0 +1,140 @@
+{
+  "name": "GreenHome AI Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1ohj5mb9m1-4a4x1BHgT9M985xXAZP60kUhAZGA05dB0",
+          "mode": "list",
+          "cachedResultName": "GreenHome AI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohj5mb9m1-4a4x1BHgT9M985xXAZP60kUhAZGA05dB0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 584449774,
+          "mode": "list",
+          "cachedResultName": "Form responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ohj5mb9m1-4a4x1BHgT9M985xXAZP60kUhAZGA05dB0/edit#gid=584449774"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "94660429-f4e4-4d50-9aef-b831175a4c63",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "kpVTaP8KREFURJnC",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert Sustainability Consultant for GreenHome AI.\n\nHere is the user data to analyze:\n\nUser Name: {{ $json['Full Name'] }}\n\nElectricity Usage: {{ $json['Electricity Usage (kWh)'] }} kWh\n\nWater Usage: {{ $json['Water Usage (Liters)  '] }} Liters\n\nHousehold Size: {{ $json['Number of People in Household  '] }}\n\nPrimary Goal: {{ $json['Current Goal'] }}\n\nInstructions:\nPlease provide the response in clean, valid HTML format only. Do not use Markdown symbols (like ### or ).\n\nUse the following HTML tags for structure:\n\nUse <h3> for section headers.\n\nUse <p> for paragraphs.\n\nUse <ul> and <li> for bullet points.\n\nUse <br> for line breaks.\n\nRequired Sections:\n\nWaste Analysis: Provide a clear assessment.\n\nEstimated Monthly Bill: Provide a breakdown.\n\nSavings Tips: Provide exactly two specific, actionable tips.\n\nWeekly Action Plan: Provide exactly a 3-step action plan.\n\nKeep the tone encouraging and professional. Ensure the output is ready to be pasted directly into an HTML email body."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "36b10617-a19e-495c-83c0-2ffaa9e252db",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ZmsKHw0IHeI0YlmE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets Trigger').item.json['Email address'] }}",
+        "subject": "Your Personalized GreenHome AI Sustainability Report",
+        "message": "={{ $json.content.parts[0].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "52f3377c-e241-48be-a079-9ada0c64ced9",
+      "name": "Send a message",
+      "webhookId": "af68f1d3-45a1-476b-a276-848a9daf9fc4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JRA5Z63MD2vl2ENM",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f3b5a47a-2b50-40f4-ad36-bcedad120553",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "08b371c8fcbd50b9bb85a7f8b336edd0320a0804beb31cefa31dcbb12997a484"
+  },
+  "nodeGroups": [],
+  "id": "zMCABAESgTRdI85m",
+  "tags": []
+}
