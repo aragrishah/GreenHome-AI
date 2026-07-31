@@ -86,7 +86,7 @@ User receives personalized report
 # ⚙️ n8n Workflow
 
 <p align="center">
-<img src="screenshots/workflow.png" width="95%">
+<img src="screenshots/workflow.jpg" width="95%">
 </p>
 
 The automation consists of **three core nodes**:
@@ -114,7 +114,7 @@ The automation consists of **three core nodes**:
 # 📧 Sample AI Report
 
 <p align="center">
-<img src="screenshots/sample-email.png" width="85%">
+<img src="screenshots/sample-email.jpg" width="85%">
 </p>
 
 Each report contains:
@@ -136,18 +136,11 @@ GreenHome-AI
 ├── LICENSE
 ├── workflow
 │   └── GreenHome_AI_Automation.json
-│
-├── documentation
-│   └── Project_Documentation.pdf
-│
-├── screenshots
-│   ├── banner.png
-│   ├── architecture.png
-│   ├── workflow.png
-│   └── sample-email.png
-│
-└── sample-output
-    └── Sample_Sustainability_Report.pdf
+└── screenshots
+    ├── banner.png
+    ├── architecture.png
+    ├── workflow.png
+    └── sample-email.png
 ```
 
 ---
